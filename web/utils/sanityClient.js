@@ -10,12 +10,11 @@ const { sanity } = require('../client-config')
  * studio/sanity.json or on manage.sanity.io
  */
 
-/*
-const sanity = {
-  projectId: 'anokeucs',
-  dataset: 'eleventy',
-  useCdn: true
-}
-*/
+// const sanity = {
+//   projectId: process.env.SANITY_PROJECT_ID,
+//   dataset: process.env.SANITY_DATASET,
+//   useCdn: true
+// }
 
-module.exports = sanityClient({...sanity, useCdn: !process.env.SANITY_READ_TOKEN, token: process.env.SANITY_READ_TOKEN});
+
+module.exports = sanityClient({ ...sanity, useCdn: !process.env.SANITY_READ_TOKEN, token: process.env.SANITY_READ_TOKEN });

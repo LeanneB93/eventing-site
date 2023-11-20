@@ -5,14 +5,14 @@ const serializers = require('../utils/serializers')
 const overlayDrafts = require('../utils/overlayDrafts')
 const hasToken = !!client.config().token
 
-function generatePost (post) {
+function generatePost(post) {
   return {
     ...post,
     body: BlocksToMarkdown(post.body, { serializers, ...client.config() })
   }
 }
 
-async function getPosts () {
+async function getPosts() {
   // Learn more: https://www.sanity.io/docs/data-store/how-queries-work
   const filter = groq`*[_type == "post" && defined(slug) && publishedAt < now()]`
   const projection = groq`{
@@ -32,6 +32,7 @@ async function getPosts () {
         }
       }
     },
+    mainImage,
     "authors": authors[].author->
   }`
   const order = `| order(publishedAt asc)`
@@ -39,7 +40,12 @@ async function getPosts () {
   const docs = await client.fetch(query).catch(err => console.error(err))
   const reducedDocs = overlayDrafts(hasToken, docs)
   const preparePosts = reducedDocs.map(generatePost)
+
+
+
+
+  console.log("docs", docs)
   return preparePosts
 }
 
-module.exports = getPosts
+module.exports = getPosts 
